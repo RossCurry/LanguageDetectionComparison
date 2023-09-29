@@ -42,7 +42,6 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(response_message.encode('utf-8'))
 
-
 # Set the port you want to listen on
 port = 8000
 
