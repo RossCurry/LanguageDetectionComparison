@@ -35,7 +35,6 @@ export async function callJavascriptServices(text: string) {
 export default async (req: Request, res: Response, _next: NextFunction) => {
   const text = req.query.text;
   if (!text || typeof text !== "string") throw new Error('Missing text query from params');
-  console.log('body', req.body);
   if (!req.body) console.warn('No req.body from python-server. Missing python services');
   // TODO missing assertion on body
   const pythonServices: Record<string, TranslationResult> = req.body;

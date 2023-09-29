@@ -1,5 +1,17 @@
 version: '3'
 services:
+  react-client:
+    container_name: react-client
+    image: node:16-bullseye-slim
+    ports:
+      - "2000:2000"
+    volumes:
+      - $PWD/packages/client-react:/data
+    command: 
+      bash -c "cd data && yarn && yarn dev"
+    networks:
+      - my_network
+
   python-service:
     container_name: server-python
     image: python:3.8-slim
@@ -15,6 +27,8 @@ services:
       python index.py"
     networks:
       - my_network
+    # needed for stdout in docker command line
+    tty: true
   
   server-express:
     container_name: server-express

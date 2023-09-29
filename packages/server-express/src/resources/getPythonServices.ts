@@ -9,7 +9,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     const url = new URL(baseUrl);
     url.pathname = 'detect';
     url.searchParams.set('text', text);
-    console.log('url.toString()', url.toString());
     const pyhtonResults = await fetch(url.toString(), {
       headers: {
         'Content-type': 'application/json'
