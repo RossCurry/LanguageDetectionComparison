@@ -31,10 +31,10 @@ router.post('/detect', async (req, res, _next) => {
         fasttext: null,
         franc: null,
     };
-    for (const service of services) {
+    await Promise.all(services.map(async (service) => {
         const detection = await service.fn(text);
         results[service.name] = detection;
-    }
+    }));
     const noNullValues = Object.values(results).every(result => result !== null);
     if (noNullValues) {
         res.status(200);
@@ -43,15 +43,17 @@ router.post('/detect', async (req, res, _next) => {
         res.status(500);
     }
     res.send({
-        ...results,
-        failedMatches: {
-            failedService: Object.entries(results).reduce((failedService, service) => {
-                const [name, serviceResults] = service;
-                const deepLDetection = results["deepl"]?.detectedLang;
-                if (serviceResults?.detectedLang !== deepLDetection)
-                    failedService.push(name);
-                return failedService;
-            }, [])
-        }
+        servicesSorted: Object.entries(results).sort((a, b) => {
+            const [aName, aResults] = a;
+            const [bName, bResults] = b;
+            return aResults?.processingTime - bResults?.processingTime;
+        }),
+        failedServices: Object.entries(results).reduce((failedService, service) => {
+            const [name, serviceResults] = service;
+            const deepLDetection = results["deepl"]?.detectedLang;
+            if (serviceResults?.detectedLang !== deepLDetection)
+                failedService.push(name);
+            return failedService;
+        }, [])
     });
 });

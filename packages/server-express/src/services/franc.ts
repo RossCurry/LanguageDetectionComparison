@@ -1,5 +1,5 @@
 import {franc, francAll, Options} from 'franc'
-import { TranslationResult } from './deepl.js';
+import { parseHrTime, TranslationResult } from './deepl.js';
 
 export default function detectFranc(text:string, completeResults: boolean = false): TranslationResult {
   const francOptions: Options = {
@@ -7,11 +7,14 @@ export default function detectFranc(text:string, completeResults: boolean = fals
   }
   // const fnCall = completeResults ? francAll : franc
   // const result = fnCall(text, francOptions);
+  const startTime = process.hrtime()
   const result = franc(text, francOptions);
+  const timeDiff = process.hrtime(startTime)
   console.log('detectFranc analyse', result)
   return {
     confidence: null,
     detectedLang: result,
-    originalText: text
+    originalText: text,
+    processingTimeMs: parseHrTime(timeDiff)
   }
 }

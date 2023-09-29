@@ -34,11 +34,10 @@ router.post('/detect', async (req: Request, res: Response, _next: NextFunction) 
     fasttext: null,
     franc: null,
   }
-  for (const service of services){
+  await Promise.all(services.map(async (service) => {
     const detection = await service.fn(text)
     results[service.name] = detection;
-  }
-  
+  }))
   const noNullValues = Object.values(results).every(result => result !== null)
   if (noNullValues) {
     res.status(200)
@@ -46,7 +45,11 @@ router.post('/detect', async (req: Request, res: Response, _next: NextFunction) 
       res.status(500)
     }
     res.send({
-      ...results,
+      servicesSorted: Object.entries(results).sort((a, b) => {
+        const [aName, aResults] = a
+        const [bName, bResults] = b
+        return aResults?.processingTimeMs! - bResults?.processingTimeMs!
+      }),
       failedServices: Object.entries(results).reduce((failedService, service) => {
         const [name, serviceResults] = service
         const deepLDetection = results["deepl"]?.detectedLang

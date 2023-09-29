@@ -8,7 +8,18 @@ export interface TranslationResult {
   originalText: string;
   detectedLang: string;
   confidence: number | null;
+  processingTimeMs: number
 }
+
+export function parseHrTime(timeDiff: [number, number]) {
+  // https://nodejs.org/api/process.html#processhrtime
+  const NS_PER_SEC = 1e9
+  const nanoseconds = timeDiff[0] * NS_PER_SEC + timeDiff[1]
+  const nanoAsMilli = 1_000_000
+  const asMilliseconds = nanoseconds / nanoAsMilli
+  return asMilliseconds
+}
+
 
 /**
  * Fetches translation from Deepl Translate
@@ -28,8 +39,11 @@ export default async function translateDeepl(
   const deeplAuth = process.env.DEEPL_AUTH || "70b69241-30d4-6772-b9c2-d86b69254e9e:fx"
   if (!deeplAuth) throw new Error("No auth token found for deepL")
   const translator = new deepl.Translator(deeplAuth, translatorOptions);
+  let timeDiff;
   try {
+    const startTime = process.hrtime()
     const result = await translator.translateText(text, sourceLanguage, targetLanguage);
+    timeDiff = process.hrtime(startTime)
     translatedText = result.text;
     detectedSourceLang = result.detectedSourceLang;
   }
@@ -41,6 +55,7 @@ export default async function translateDeepl(
   return {
     originalText: translatedText,
     detectedLang: detectedSourceLang,
-    confidence: null
+    confidence: null,
+    processingTimeMs: parseHrTime(timeDiff)
   };
 }
