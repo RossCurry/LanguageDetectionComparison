@@ -1,0 +1,12 @@
+version: '3'
+services:
+  server-express:
+    container_name: server-express
+    image: node:16
+    ports:
+      - "3000:3000"
+    volumes:
+      - $PWD:/data
+    command: 
+      bash -c "cd data && yarn && yarn start"
+      

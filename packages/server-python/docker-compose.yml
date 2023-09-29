@@ -1,0 +1,17 @@
+version: '3'
+services:
+  python-service:
+    # container_name: server-python
+    image: python:3.8-slim
+    # build:
+    #   context: .
+      # dockerfile: Dockerfile  # Specify your Dockerfile if it's not named "Dockerfile"
+    ports:
+      - "5000:5000"  # Map port 5000 from host to container
+    volumes:
+      - $PWD:/data
+    command: |
+      bash -c "cd data && pip3 install -r requirements.txt &&
+      python index.py"
+      
+      

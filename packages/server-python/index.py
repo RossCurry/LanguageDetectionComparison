@@ -19,15 +19,13 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
             langdetect_result = detect_langdetect(text_value)
             langid_result = detect_langid(text_value)
 
-            print('langdetect_result', langdetect_result)
-            print('langid_result', langid_result, type(langid_result))
-            
             response_message = {
-                'text': text_value,
-                'langdetect': { 'lang': langdetect_result, 'confidence': None },
-                'langid': { 'lang': langid_result[0], 'confidence': float(langid_result[1]) }
+                'langdetect': langdetect_result,
+                'langid': langid_result
             }
-            
+
+            print('response_message', response_message)
+
             # Send the HTTP response with the response_message as JSON
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
@@ -43,7 +41,7 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(response_message.encode('utf-8'))
 
 # Set the port you want to listen on
-port = 8000
+port = 5000
 
 # Create the server and bind it to the specified port
 with socketserver.TCPServer(("", port), MyHandler) as httpd:

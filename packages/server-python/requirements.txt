@@ -1,0 +1,2 @@
+langdetect
+py3langid

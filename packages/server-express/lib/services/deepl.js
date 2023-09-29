@@ -42,6 +42,7 @@ export default async function translateDeepl(text, targetLanguage = 'de', source
         originalText: translatedText,
         detectedLang: detectedSourceLang,
         confidence: null,
-        processingTime: parseHrTime(timeDiff)
+        processingTimeMs: parseHrTime(timeDiff),
+        language: 'typescript'
     };
 }

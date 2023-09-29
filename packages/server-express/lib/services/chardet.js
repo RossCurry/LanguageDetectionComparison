@@ -14,6 +14,7 @@ export default function detectChardet(text) {
         confidence: highestScoredDetection.confidence / 100,
         detectedLang: highestScoredDetection.lang || "",
         originalText: text,
-        processingTime: parseHrTime(timeDiff)
+        processingTimeMs: parseHrTime(timeDiff),
+        language: 'typescript'
     };
 }

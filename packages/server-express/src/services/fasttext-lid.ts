@@ -14,6 +14,7 @@ export default async function detectFasttext(text:string): Promise<TranslationRe
     confidence: detectedResult.prob,
     detectedLang: detectedResult.lang,
     originalText: text,
-    processingTimeMs: parseHrTime(timeDiff)
+    processingTimeMs: parseHrTime(timeDiff),
+    language: 'javascript'
   }
 }

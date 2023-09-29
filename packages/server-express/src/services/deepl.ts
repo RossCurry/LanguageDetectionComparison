@@ -8,7 +8,8 @@ export interface TranslationResult {
   originalText: string;
   detectedLang: string;
   confidence: number | null;
-  processingTimeMs: number
+  processingTimeMs: number;
+  language: 'typescript' | 'javascript'
 }
 
 export function parseHrTime(timeDiff: [number, number]) {
@@ -56,6 +57,7 @@ export default async function translateDeepl(
     originalText: translatedText,
     detectedLang: detectedSourceLang,
     confidence: null,
-    processingTimeMs: parseHrTime(timeDiff)
+    processingTimeMs: parseHrTime(timeDiff),
+    language: 'typescript'
   };
 }

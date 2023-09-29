@@ -15,6 +15,7 @@ export default function detectFranc(text:string, completeResults: boolean = fals
     confidence: null,
     detectedLang: result,
     originalText: text,
-    processingTimeMs: parseHrTime(timeDiff)
+    processingTimeMs: parseHrTime(timeDiff),
+    language: 'typescript'
   }
 }

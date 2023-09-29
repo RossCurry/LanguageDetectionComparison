@@ -14,6 +14,7 @@ export default async function detectFasttext(text) {
         confidence: detectedResult.prob,
         detectedLang: detectedResult.lang,
         originalText: text,
-        processingTime: parseHrTime(timeDiff)
+        processingTimeMs: parseHrTime(timeDiff),
+        language: 'javascript'
     };
 }
