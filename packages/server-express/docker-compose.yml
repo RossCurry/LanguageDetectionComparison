@@ -3,6 +3,11 @@ services:
   server-express:
     container_name: server-express
     image: node:16
+    # env_file:
+    # - .env
+    # environment:
+    #   - DEEPL_AUTH=$(DEEPL_AUTH)
+    #   - MONGO_CONNECT=$(MONGO_CONNECT)
     ports:
       - "3000:3000"
     volumes:

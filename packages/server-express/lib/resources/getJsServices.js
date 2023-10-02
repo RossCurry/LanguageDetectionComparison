@@ -2,6 +2,7 @@ import translateDeepl from '../services/deepl.js';
 import detectChardet from '../services/chardet.js';
 import detectFasttext from '../services/fasttext-lid.js';
 import detectFranc from '../services/franc.js';
+import { insertOneQueryResult } from '../db/addResult.js';
 export async function callJavascriptServices(text) {
     const services = [
         { name: 'chardet', fn: detectChardet },
@@ -42,12 +43,23 @@ export default async (req, res, _next) => {
         res.status(500);
     }
     const allServices = { ...pythonServices, ...jsServices };
+    // addMatches deepL for DB & FE
+    const deeplDetectedLang = allServices["deepl"]?.detectedLang;
+    for (const [name, result] of Object.entries(allServices)) {
+        const matchesDeepL = result?.detectedLang === deeplDetectedLang;
+        if (result)
+            result.matchesDeepL = matchesDeepL;
+        console.log('result', result);
+    }
+    // Send results to a DB
+    await insertOneQueryResult(text, allServices);
     res.send({
         servicesSorted: Object.entries(allServices).sort((a, b) => {
             const [aName, aResults] = a;
             const [bName, bResults] = b;
             return (aResults?.processingTimeMs) - (bResults?.processingTimeMs);
         }),
+        // TODO seems like this doesn't always work
         failedServices: Object.entries(allServices).reduce((failedService, service) => {
             const [name, serviceResults] = service;
             const deepLDetection = allServices["deepl"]?.detectedLang;

@@ -9,7 +9,8 @@ export interface TranslationResult {
   detectedLang: string;
   confidence: number | null;
   processingTimeMs: number;
-  language: 'typescript' | 'javascript'
+  language: 'typescript' | 'javascript',
+  matchesDeepL?: boolean
 }
 
 export function parseHrTime(timeDiff: [number, number]) {

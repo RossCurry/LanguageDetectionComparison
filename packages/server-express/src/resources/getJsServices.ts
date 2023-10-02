@@ -3,6 +3,7 @@ import translateDeepl, { TranslationResult } from '../services/deepl.js';
 import detectChardet from '../services/chardet.js';
 import detectFasttext from '../services/fasttext-lid.js';
 import detectFranc from '../services/franc.js';
+import { insertOneQueryResult } from '../db/addResult.js';
 
 
 export async function callJavascriptServices(text: string) {
@@ -37,7 +38,7 @@ export default async (req: Request, res: Response, _next: NextFunction) => {
   if (!text || typeof text !== "string") throw new Error('Missing text query from params');
   if (!req.body) console.warn('No req.body from python-server. Missing python services');
   // TODO missing assertion on body
-  const pythonServices: Record<string, TranslationResult> = req.body;
+  const pythonServices: Record<'langid' | 'langdetect', TranslationResult> = req.body;
 
   const jsServices = await callJavascriptServices(text);
   const noNullValues = Object.values(jsServices).every(result => result !== null);
@@ -49,12 +50,23 @@ export default async (req: Request, res: Response, _next: NextFunction) => {
   }
 
   const allServices = { ...pythonServices, ...jsServices };
+  // addMatches deepL for DB & FE
+  const deeplDetectedLang = allServices["deepl"]?.detectedLang
+  for (const [name, result] of Object.entries(allServices)){
+    const matchesDeepL = result?.detectedLang === deeplDetectedLang
+    if (result) result.matchesDeepL = matchesDeepL
+    console.log('result', result)
+  }
+  // Send results to a DB
+  await insertOneQueryResult(text, allServices)
+
   res.send({
     servicesSorted: Object.entries(allServices).sort((a, b) => {
       const [aName, aResults] = a;
       const [bName, bResults] = b;
       return (aResults?.processingTimeMs)! - (bResults?.processingTimeMs)!;
     }),
+    // TODO seems like this doesn't always work
     failedServices: Object.entries(allServices).reduce((failedService, service) => {
       const [name, serviceResults] = service;
       const deepLDetection = allServices["deepl"]?.detectedLang;
