@@ -9,7 +9,6 @@ export default function detectFranc(text, completeResults = false) {
     const startTime = process.hrtime();
     const result = franc(text, francOptions);
     const timeDiff = process.hrtime(startTime);
-    console.log('detectFranc analyse', result);
     return {
         confidence: null,
         detectedLang: result,

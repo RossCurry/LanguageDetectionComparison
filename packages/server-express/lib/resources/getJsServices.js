@@ -29,7 +29,6 @@ export default async (req, res, _next) => {
     const text = req.query.text;
     if (!text || typeof text !== "string")
         throw new Error('Missing text query from params');
-    console.log('body', req.body);
     if (!req.body)
         console.warn('No req.body from python-server. Missing python services');
     // TODO missing assertion on body
