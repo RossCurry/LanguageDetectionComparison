@@ -1,68 +1,68 @@
-version: '3'
-services:
-  react-client:
-    container_name: react-client
-    image: node:16-bullseye-slim
-    ports:
-      - "2000:2000"
-    volumes:
-      - $PWD/packages/client-react:/data
-      - $PWD/packages/shared-utils:/shared-utils
-    command: 
-      bash -c "cd data && yarn && yarn dev"
-    networks:
-      - my_network
+# version: '3'
+# services:
+#   react-client:
+#     container_name: react-client
+#     image: node:16-bullseye-slim
+#     ports:
+#       - "2000:2000"
+#     volumes:
+#       - $PWD/packages/client-react:/data
+#       - $PWD/packages/shared-utils:/shared-utils
+#     command: 
+#       bash -c "cd data && yarn && yarn dev"
+#     networks:
+#       - my_network
 
-  python-service:
-    container_name: server-python
-    image: python:3.8-slim
-    # build:
-    #   context: .
-      # dockerfile: Dockerfile  # Specify your Dockerfile if it's not named "Dockerfile"
-    ports:
-      - "5000:5000"  # Map port 5000 from host to container
-    volumes:
-      - $PWD/packages/server-python:/data
-      - $PWD/packages/shared-utils:/shared-utils
-    command: |
-      bash -c "cd data && pip3 install -r requirements.txt &&
-      python index.py"
-    networks:
-      - my_network
-    # needed for stdout in docker command line
-    tty: true
+#   python-service:
+#     container_name: server-python
+#     image: python:3.8-slim
+#     # build:
+#     #   context: .
+#       # dockerfile: Dockerfile  # Specify your Dockerfile if it's not named "Dockerfile"
+#     ports:
+#       - "5000:5000"  # Map port 5000 from host to container
+#     volumes:
+#       - $PWD/packages/server-python:/data
+#       - $PWD/packages/shared-utils:/shared-utils
+#     command: |
+#       bash -c "cd data && pip3 install -r requirements.txt &&
+#       python index.py"
+#     networks:
+#       - my_network
+#     # needed for stdout in docker command line
+#     tty: true
   
-  server-express:
-    container_name: server-express
-    image: node:16
-    ports:
-      - "3000:3000"
-    volumes:
-      - $PWD/packages/server-express:/data
-      - $PWD/packages/shared-utils:/shared-utils
-    command: 
-      bash -c "cd data && yarn && yarn start"
-    networks:
-      - my_network
-  shared-utils:
-    container_name: shared-utils
-    image: node:16-bullseye-slim
-    # env_file:
-    # - .env
-    # environment:
-    #   - DEEPL_AUTH=$(DEEPL_AUTH)
-    #   - MONGO_CONNECT=$(MONGO_CONNECT)
-    # ports:
-    #   - "3000:3000"
-    volumes:
-      - $PWD/packages/shared-utils:/data
-    command: 
-      bash -c "cd data && yarn
-    networks:
-      - my_network
+#   server-express:
+#     container_name: server-express
+#     image: node:16
+#     ports:
+#       - "3000:3000"
+#     volumes:
+#       - $PWD/packages/server-express:/data
+#       - $PWD/packages/shared-utils:/shared-utils
+#     command: 
+#       bash -c "cd data && yarn && yarn start"
+#     networks:
+#       - my_network
+#   shared-utils:
+#     container_name: shared-utils
+#     image: node:16-bullseye-slim
+#     # env_file:
+#     # - .env
+#     # environment:
+#     #   - DEEPL_AUTH=$(DEEPL_AUTH)
+#     #   - MONGO_CONNECT=$(MONGO_CONNECT)
+#     # ports:
+#     #   - "3000:3000"
+#     volumes:
+#       - $PWD/packages/shared-utils:/data
+#     command: 
+#       bash -c "cd data && yarn
+#     networks:
+#       - my_network
 
-networks:
-  my_network:
-    driver: bridge      
+# networks:
+#   my_network:
+#     driver: bridge      
     
       
