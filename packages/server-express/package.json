@@ -24,7 +24,7 @@
     "watch": "node_modules/.bin/tsc --watch --project tsconfig.json ",
     "build": "rm -rf lib && node_modules/.bin/tsc --build",
     "start": "yarn build && node ./lib/index.js ",
-    "build:prod": "ls -l && yarn && node_modules/.bin/tsc --build",
+    "build:prod": "ls -l && rm -rf ./lib && yarn && node_modules/.bin/tsc --build",
     "start:prod": "node ./lib/index.js "
   }
 }
