@@ -13,7 +13,7 @@ export default function SearchInput ({ setDetectionResults, setShowAggregation, 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setShowAggregation(false)
-    const expressBaseurl = 'http://localhost:3000';
+    const expressBaseurl = import.meta.env.VITE_API_EXPRESS;
     const url = new URL(expressBaseurl);
     url.pathname = 'detect';
     url.searchParams.set('text', input);

@@ -9,8 +9,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 const corsOptions =  {
-  // TODO use correct prod URL
-  origin: process.env.PROD === "true" ? 'https://sh-webhook-tester.netlify.app' : "*",
+  origin: process.env.PROD === "true" ? process.env.CLIENT_URL : "*",
   methods: ["GET", "POST"]
 }
 

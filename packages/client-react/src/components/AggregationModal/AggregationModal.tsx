@@ -10,7 +10,7 @@ export default function AggregationModal() {
   
   useEffect(() => {
     const getAggregationResults = async () => {
-      const expressBaseurl = 'http://localhost:3000';
+      const expressBaseurl = import.meta.env.VITE_API_EXPRESS;
       const url = new URL(expressBaseurl);
       url.pathname = 'aggregate';
       let result;
