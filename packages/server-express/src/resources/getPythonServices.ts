@@ -7,7 +7,9 @@ export default async function getPythonServices(req: Request, res: Response, nex
   const text = req.query.text;
   if (!text || typeof text !== "string") throw new Error('Missing text query from params');
   try {
-    const baseUrl = process.env.PYTHON_API;
+    // const baseUrl = process.env.PYTHON_API;
+    console.info('process.env.PYTHON_API', process.env.PYTHON_API)
+    const baseUrl = "https://languagedetectionexpress.onrender.com"; // weird error hard coding
     if (!baseUrl) throw new Error('No PYTHON_API url found. Check ENV variables')
     const url = new URL(baseUrl);
     url.pathname = 'detect';
