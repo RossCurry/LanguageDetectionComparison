@@ -14,6 +14,15 @@
   -webkit-text-size-adjust: 100%;
 }
 
+#root {
+  min-width: 60%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  /* background-color: aquamarine; */
+}
+
 a {
   font-weight: 500;
   color: #646cff;

@@ -61,7 +61,7 @@ export default async function getAggregationResultsFromDB(): Promise<AggregateQu
       return res
     })
     const [deepL] = withAvgMatchesDeepL.filter( res => res._id === "deepl")
-    const theRest = withAvgMatchesDeepL.filter( res => res._id !== "deepl")
+    const theRest = withAvgMatchesDeepL.filter( res => res._id !== "deepl").sort((a,b) => a._id.charCodeAt(0) - b._id.charCodeAt(0))
     return { aggregateResults: [ deepL, ...theRest ], totalDocuments }
   } catch (error) {
     console.error('Error gettin AggregateResults from DB', error)

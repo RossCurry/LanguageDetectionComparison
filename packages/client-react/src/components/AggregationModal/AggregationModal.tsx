@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import style from './AggregationModal.module.css'
 import { AggregateQuery } from '../../utils/shared-types';
 import { TanTableReact } from '../TanReactTable/TanTableReact';
+import Loader from '../Loader/Loader';
 
 
 export default function AggregationModal() {
@@ -26,20 +27,17 @@ export default function AggregationModal() {
       const asJson: AggregateQuery = await result?.json();
       setAggregateQuery(asJson);
       console.table(asJson.aggregateResults);
-      // asJson.forEach((result) => {
-      //   console.table(result);
-      // });
     }
     getAggregationResults()
   }, [])
   return (
-    <div className={style.aggregationModalContainer}>
-      {/* Add a cool table */}
+    <>
       {AggregateQuery 
-        ? <TanTableReact aggregateResults={AggregateQuery.aggregateResults} />
-        : <div className={style.loadingLoader}>loading...</div>
+        ? <div className={style.aggregationModalContainer}>
+            <TanTableReact aggregateResults={AggregateQuery.aggregateResults} />
+          </div>
+        : <Loader loadingText={"Comparison Table"} />
       }
-    </div>
+  </>
   )
 }
-

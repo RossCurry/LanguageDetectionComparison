@@ -4,12 +4,15 @@ import { ApiDetectionResults } from '../../App';
 
 type SearchInputProps = {
   setDetectionResults: React.Dispatch<React.SetStateAction<ApiDetectionResults | null>>;
+  setShowAggregation: React.Dispatch<React.SetStateAction<boolean>>,
+  buttonText: 'detect'|'show table'
 };
-export default function SearchInput ({ setDetectionResults }: SearchInputProps) {
+export default function SearchInput ({ setDetectionResults, setShowAggregation, buttonText }: SearchInputProps) {
   const [input, setInput] = useState('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setShowAggregation(false)
     const expressBaseurl = 'http://localhost:3000';
     const url = new URL(expressBaseurl);
     url.pathname = 'detect';
@@ -36,7 +39,7 @@ export default function SearchInput ({ setDetectionResults }: SearchInputProps) 
 
   return (
     <>
-      <form onSubmit={handleSubmit} className={style.searhInputContainer}>
+      <form onSubmit={buttonText === "detect" ? handleSubmit : () => setShowAggregation(true)} className={style.searhInputContainer}>
         <input
           type="text"
           name="searchTerm"
@@ -44,7 +47,7 @@ export default function SearchInput ({ setDetectionResults }: SearchInputProps) 
           placeholder='Type word or phrase to detect'
           value={input}
           onChange={(e) => setInput(e.target.value)} />
-        <button type="submit">detect</button>
+        <button type="submit">{buttonText}</button>
       </form>
     </>
   );

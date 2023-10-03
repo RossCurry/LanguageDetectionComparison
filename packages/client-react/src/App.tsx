@@ -1,8 +1,9 @@
-import { useState } from 'react'
-import './App.css'
+import { useEffect, useState } from 'react'
 import SearchInput from './components/SearchInput/SearchInput';
-import ServiceResultCard from './components/ServiceResultCard/ServiceResultCard';
 import AggregationModal from './components/AggregationModal/AggregationModal';
+import { SearchResults } from './components/SearchResults/SearchResults';
+import Loader from './components/Loader/Loader';
+import style from './App.module.css'
 
 export interface TranslationResult {
   originalText: string;
@@ -20,40 +21,26 @@ export type ApiDetectionResults = {
 function App() {
   
   const [detectionResults, setDetectionResults] = useState<ApiDetectionResults | null>(null)
+  const [showAggregation, setShowAggregation] = useState<boolean>(true)
   
-  const deeplResults = detectionResults?.servicesSorted.filter( ([serviceName]) => serviceName === "deepl")
-  const otherResults = detectionResults?.servicesSorted.filter( ([serviceName]) => serviceName !== "deepl")
+  useEffect(() => {
+    if (!detectionResults) return
+    setShowAggregation(false)
+  }, [detectionResults])
 
   return (
     <>
       <h1>Language detection</h1>
       <h3>Package comparison</h3>
-      <SearchInput  setDetectionResults={setDetectionResults} />
-      {/* Deelp Should always be on top */}
-      {deeplResults 
-        ? deeplResults.map(([serviceName,serviceResults], i) => {
-          return (
-            <ServiceResultCard 
-              key={serviceName+i} 
-              serviceResult={serviceResults} 
-              serviceName={serviceName}
-              matchesDeepl={true}
-            />
-          )})
-        : null }
-      {otherResults ? otherResults.map( ([serviceName, serviceResults], i) => {
-        const matchesDeepl = deeplResults?.length ? deeplResults[0][1].detectedLang === serviceResults.detectedLang : false
-        return (
-          <ServiceResultCard 
-          key={serviceName+i} 
-          serviceResult={serviceResults} 
-          serviceName={serviceName} 
-          // matchesDeepl={!detectionResults?.failedServices.includes(serviceName)} // not correct
-          matchesDeepl={matchesDeepl} 
-          />
-        )
-      }) : null }
-      <AggregationModal />
+        <SearchInput  setDetectionResults={setDetectionResults} setShowAggregation={setShowAggregation} buttonText={showAggregation ? 'detect' : 'show table'}/>
+      {
+        showAggregation 
+        ? <AggregationModal />
+        : detectionResults
+          ?  <SearchResults  detectionResults={detectionResults}/>
+          :  <Loader loadingText={"Query Results"} />
+      }
+      <div className={style.note}>* using deepL as the defect standard</div>
     </>
   )
 }
