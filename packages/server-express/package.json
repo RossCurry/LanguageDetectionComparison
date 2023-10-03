@@ -23,6 +23,7 @@
   "scripts": {
     "watch": "node_modules/.bin/tsc --watch --project tsconfig.json ",
     "build": "rm -rf lib && node_modules/.bin/tsc --build",
-    "start": "yarn build && node ./lib/index.js "
+    "start": "yarn build && node ./lib/index.js ",
+    "build:prod": "PWD && ls -l"
   }
 }
