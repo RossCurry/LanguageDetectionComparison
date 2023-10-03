@@ -1,4 +1,8 @@
+# OS ignore
+.DS_Store
+# node ignore
 .env
 node_modules
+# pyhton ignore
 venv
-.DS_Store
+__pycache__
