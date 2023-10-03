@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useReactTable, createColumnHelper, getCoreRowModel, flexRender, getSortedRowModel } from '@tanstack/react-table';
 import style from './TanTableReact.module.css';
 import { AggregateQuery, AggregateResult } from '../../utils/shared-types';
@@ -28,7 +28,7 @@ export function TanTableReact({ aggregateResults }: TableProps) {
       id: 'serviceName',
       cell: info => (
         <div className={style.serviceName}>
-          <img src={logos[info.getValue() as keyof typeof logos] || logos.python} alt="Service or Programming language name" className={style.logo} />
+          <img src={logos[info.getValue() as keyof typeof logos]} alt="Service or Programming language name" className={style.logo} />
           {info.getValue()}
         </div>
       ),
