@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import getAggregationResultsFromDB from "../db/getAggregation.js";
-import { AggregateResult, AggregateQuery } from "../../../shared-utils/Types.js";
+import { AggregateResult, AggregateQuery } from "../utils/shared-types.js";
 
 export default async function queryAggregationDB(_req: Request, res: Response<AggregateQuery | undefined>, _next: NextFunction){
   try {

@@ -7,7 +7,7 @@ export type DetectionServices =
   'deepl';
 
 export type AggregateResult = { 
-  _id: string;
+  _id: DetectionServices;
   trueCount: number;
   falseCount: number;
   avgProcessingTimeMs: number;

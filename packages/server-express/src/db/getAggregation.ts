@@ -1,5 +1,5 @@
 import { connectDb, dbDetectionServices, client, resultsCollection } from './connect.js'
-import { AggregateQuery, AggregateResult } from '../../../shared-utils/Types.js'
+import { AggregateQuery, AggregateResult } from '../utils/shared-types.js'
 
 /**
  * Gets sum of deepl matches
@@ -60,7 +60,9 @@ export default async function getAggregationResultsFromDB(): Promise<AggregateQu
       res.avgMatchesDeepL = (res.trueCount / totalDocuments) * 100
       return res
     })
-    return { aggregateResults: withAvgMatchesDeepL, totalDocuments }
+    const [deepL] = withAvgMatchesDeepL.filter( res => res._id === "deepl")
+    const theRest = withAvgMatchesDeepL.filter( res => res._id !== "deepl")
+    return { aggregateResults: [ deepL, ...theRest ], totalDocuments }
   } catch (error) {
     console.error('Error gettin AggregateResults from DB', error)
   } finally {

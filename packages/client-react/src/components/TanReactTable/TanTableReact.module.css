@@ -1,0 +1,57 @@
+table {
+  width: 100%;
+  font-size: 1.1rem;
+}
+/* header row */
+table thead {
+  /* background-color: aquamarine; */
+}
+/* header */
+table thead tr th {
+  background-color: rgb(144, 143, 143);
+  padding: .25em 1em;
+  cursor: pointer;
+}
+table thead tr th .sortIcon {
+  background-color: rgb(144, 143, 143);
+  cursor: pointer;
+  font-weight: normal;
+}
+table thead tr th:first-child {
+  border-radius: 6px 0 0 6px;
+}
+table thead tr th:last-child {
+  border-radius: 0 6px 6px 0;
+}
+/* row */
+table tbody tr {
+
+}
+/* row */
+table tbody tr .serviceName {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+/* cell */
+table tbody tr td{
+
+}
+/* cell with img*/
+table tbody tr td img{
+  text-align: center;
+  height: 1em;
+  padding: .5em;
+}
+/* cell */
+table tbody tr td:first-child {
+  text-align: left;
+  padding: .25em 1em;
+  font-weight: bold;
+}
+/* cell */
+table tbody tr td:last-child {
+  font-family: 'Courier New', Courier, monospace;
+  text-align: right;
+  padding: .25em 1em;
+}

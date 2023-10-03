@@ -1,22 +1,24 @@
 .aggregationModalContainer {
-  background-color: rgba(0, 255, 255, 0.336);
+  background-color: rgb(59, 59, 59);
   width: inherit;
-  height: 50dvh;
+  min-width: 80vw;
+  /* height: 50dvh; */
+  padding: 1em ;
+  margin-top: 2rem;
+  border-radius: 6px;
+  border: 2px solid rgba(245, 245, 220, 0.479);
 }
 
-
-table {
-
+.loadingLoader{
+  font-size: large;
+  letter-spacing: .1rem;
+  animation: flashing 800ms infinite alternate-reverse;
 }
-/* header */
-table thead tr th {
-
-}
-/* row */
-table tbody tr {
-
-}
-/* cell */
-table tbody tr td{
-
+@keyframes flashing {
+  from { 
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

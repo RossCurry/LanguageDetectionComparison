@@ -58,7 +58,9 @@ export default async function getAggregationResultsFromDB() {
             res.avgMatchesDeepL = (res.trueCount / totalDocuments) * 100;
             return res;
         });
-        return { aggregateResults: withAvgMatchesDeepL, totalDocuments };
+        const [deepL] = withAvgMatchesDeepL.filter(res => res._id === "deepl");
+        const theRest = withAvgMatchesDeepL.filter(res => res._id !== "deepl");
+        return { aggregateResults: [deepL, ...theRest], totalDocuments };
     }
     catch (error) {
         console.error('Error gettin AggregateResults from DB', error);

@@ -7,6 +7,7 @@ services:
       - "2000:2000"
     volumes:
       - $PWD/packages/client-react:/data
+      - $PWD/packages/shared-utils:/shared-utils
     command: 
       bash -c "cd data && yarn && yarn dev"
     networks:
@@ -22,6 +23,7 @@ services:
       - "5000:5000"  # Map port 5000 from host to container
     volumes:
       - $PWD/packages/server-python:/data
+      - $PWD/packages/shared-utils:/shared-utils
     command: |
       bash -c "cd data && pip3 install -r requirements.txt &&
       python index.py"
@@ -37,26 +39,27 @@ services:
       - "3000:3000"
     volumes:
       - $PWD/packages/server-express:/data
+      - $PWD/packages/shared-utils:/shared-utils
     command: 
       bash -c "cd data && yarn && yarn start"
     networks:
       - my_network
-  # shared-utils:
-  #   container_name: shared-utils
-  #   image: node:16-bullseye-slim
-  #   # env_file:
-  #   # - .env
-  #   # environment:
-  #   #   - DEEPL_AUTH=$(DEEPL_AUTH)
-  #   #   - MONGO_CONNECT=$(MONGO_CONNECT)
-  #   # ports:
-  #   #   - "3000:3000"
-  #   volumes:
-  #     - $PWD:/data
-  #   command: 
-  #     bash
-  #   networks:
-  #     - my_network
+  shared-utils:
+    container_name: shared-utils
+    image: node:16-bullseye-slim
+    # env_file:
+    # - .env
+    # environment:
+    #   - DEEPL_AUTH=$(DEEPL_AUTH)
+    #   - MONGO_CONNECT=$(MONGO_CONNECT)
+    # ports:
+    #   - "3000:3000"
+    volumes:
+      - $PWD/packages/shared-utils:/data
+    command: 
+      bash -c "cd data && yarn
+    networks:
+      - my_network
 
 networks:
   my_network:
