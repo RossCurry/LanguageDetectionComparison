@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import SearchInput from './components/SearchInput/SearchInput';
 import ServiceResultCard from './components/ServiceResultCard/ServiceResultCard';
+import AggregationModal from './components/AggregationModal/AggregationModal';
 
 export interface TranslationResult {
   originalText: string;
@@ -52,6 +53,7 @@ function App() {
           />
         )
       }) : null }
+      <AggregationModal />
     </>
   )
 }

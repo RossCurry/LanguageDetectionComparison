@@ -27,7 +27,7 @@ export default function ServiceResultCard({ serviceResult, serviceName, matchesD
   return (
     <div className={isDeepl ? style.serviceResultsCard : `${style.serviceResultsCard} ${detectionClasses}`}>
       <img src={logos[serviceName as keyof typeof logos] || logos[programmingLang]} alt="Service or Programming language name" className={style.logo} />
-      <span>{serviceName}</span>
+      <span className={style.serviceName}>{serviceName}</span>
       <span>{detectedLang}</span>
       <span>{confidence?.toFixed(4) || 'not available'}</span>
       <span>{processingTimeMs.toFixed(4)}</span>

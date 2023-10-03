@@ -41,6 +41,23 @@ services:
       bash -c "cd data && yarn && yarn start"
     networks:
       - my_network
+  # shared-utils:
+  #   container_name: shared-utils
+  #   image: node:16-bullseye-slim
+  #   # env_file:
+  #   # - .env
+  #   # environment:
+  #   #   - DEEPL_AUTH=$(DEEPL_AUTH)
+  #   #   - MONGO_CONNECT=$(MONGO_CONNECT)
+  #   # ports:
+  #   #   - "3000:3000"
+  #   volumes:
+  #     - $PWD:/data
+  #   command: 
+  #     bash
+  #   networks:
+  #     - my_network
+
 networks:
   my_network:
     driver: bridge      

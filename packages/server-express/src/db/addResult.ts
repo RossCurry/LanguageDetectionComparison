@@ -1,5 +1,5 @@
 import { TranslationResult } from '../services/deepl.js'
-import { connectDb, dbName, client, resultsCollection } from './connect.js'
+import { connectDb, dbDetectionServices, client, resultsCollection } from './connect.js'
 
 
 type ServicesResponse =  {
@@ -25,14 +25,14 @@ export const insertOneQueryResult = async (searchPhrase: string, queryResponse: 
   }
   try {
     await connectDb()
-    const resultsCol = await client.db(dbName).collection(resultsCollection)
-    console.info(`Connect to 'results' collection in '${dbName}'`)
+    const resultsCol = await client.db(dbDetectionServices).collection(resultsCollection)
+    console.info(`Connect to 'results' collection in '${dbDetectionServices}'`)
     const savedResult = await resultsCol.insertOne(entry)
     console.info(`Success. Added user: ${JSON.stringify(savedResult)}'`)
   } catch (error) {
     console.error('Error creating collection to DB', error)
   } finally {
     await client.close()
-    console.info(`Closing connection db 🛬: ${dbName}`)
+    console.info(`Closing connection db 🛬: ${dbDetectionServices}`)
   }
 }
