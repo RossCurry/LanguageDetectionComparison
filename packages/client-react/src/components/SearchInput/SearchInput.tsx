@@ -4,16 +4,20 @@ import { ApiDetectionResults } from '../../App';
 
 type SearchInputProps = {
   setDetectionResults: React.Dispatch<React.SetStateAction<ApiDetectionResults | null>>;
-  setShowAggregation: React.Dispatch<React.SetStateAction<boolean>>,
-  buttonText: 'detect'|'show table'
+  setShowAggregationTable: React.Dispatch<React.SetStateAction<boolean>>,
 };
-export default function SearchInput ({ setDetectionResults, setShowAggregation, buttonText }: SearchInputProps) {
+export default function SearchInput ({ setDetectionResults, setShowAggregationTable }: SearchInputProps) {
   const [input, setInput] = useState('');
-  const [prevQuerySent, setPrevQuerySent] = useState('');
+  const [isPristine, setIsPristine] = useState(false);
+  const [prevQuerySent, setPrevQuerySent] = useState<string | null>(null);
+  const buttonAction = isPristine ? 'show table' : 'detect'
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setShowAggregation(false)
+    if (buttonAction === "show table"){
+      setShowAggregationTable(true)
+      return;
+    }
     const expressBaseurl = import.meta.env.VITE_API_EXPRESS;
     const url = new URL(expressBaseurl);
     url.pathname = 'detect';
@@ -32,29 +36,27 @@ export default function SearchInput ({ setDetectionResults, setShowAggregation, 
     }
     const asJson: ApiDetectionResults = await result?.json();
     setDetectionResults(asJson);
-    console.log(asJson);
-    asJson.servicesSorted.forEach(([serviceName, serviceResult]) => {
-      console.log(serviceName);
-      console.table(serviceResult);
-    });
+    setShowAggregationTable(false)
+    setIsPristine(true)
   };
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    /**
-     * This looks confusing
-     * you want to make the button 'detect' when the input is no longer prestine
-     */
-    if (buttonText === "show table"){
-      if (prevQuerySent !== e.target.value){
-        setShowAggregation(true)
-      }
+    // We handle the input being prestine here.
+    const currentInput = e.target.value
+    if (prevQuerySent === currentInput) {
+      setIsPristine(true)
+    } else {
+      setIsPristine(false)
     }
-    setInput(e.target.value)
+    setInput(currentInput)
   }
 
   return (
     <>
-      <form onSubmit={buttonText === "detect" ? handleSubmit : () => setShowAggregation(true)} className={style.searhInputContainer}>
+      <form 
+        onSubmit={handleSubmit} 
+        className={style.searhInputContainer}
+      >
         <input
           type="text"
           name="searchTerm"
@@ -62,7 +64,7 @@ export default function SearchInput ({ setDetectionResults, setShowAggregation, 
           placeholder='Type word or phrase to detect'
           value={input}
           onChange={handleOnChange} />
-        <button type="submit">{buttonText}</button>
+        <button type="submit">{buttonAction}</button>
       </form>
     </>
   );

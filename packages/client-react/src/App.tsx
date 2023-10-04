@@ -21,20 +21,23 @@ export type ApiDetectionResults = {
 function App() {
   
   const [detectionResults, setDetectionResults] = useState<ApiDetectionResults | null>(null)
-  const [showAggregation, setShowAggregation] = useState<boolean>(true)
+  const [showAggregationTable, setShowAggregationTable] = useState<boolean>(true)
   
   useEffect(() => {
     if (!detectionResults) return
-    setShowAggregation(false)
+    setShowAggregationTable(false)
   }, [detectionResults])
 
   return (
     <>
       <h1>Language detection</h1>
       <h3>Package comparison</h3>
-        <SearchInput  setDetectionResults={setDetectionResults} setShowAggregation={setShowAggregation} buttonText={showAggregation ? 'detect' : 'show table'}/>
+        <SearchInput  
+          setDetectionResults={setDetectionResults}  
+          setShowAggregationTable={setShowAggregationTable} 
+        />
       {
-        showAggregation 
+        showAggregationTable 
         ? <AggregationModal />
         : detectionResults
           ?  <SearchResults  detectionResults={detectionResults}/>
