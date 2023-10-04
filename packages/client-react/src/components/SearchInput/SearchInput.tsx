@@ -14,8 +14,11 @@ export default function SearchInput ({ setDetectionResults, setShowAggregationTa
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!input) return;
     if (buttonAction === "show table"){
       setShowAggregationTable(true)
+      setInput('')
+      setIsPristine(false)
       return;
     }
     const expressBaseurl = import.meta.env.VITE_API_EXPRESS;
