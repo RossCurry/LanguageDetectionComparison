@@ -17,6 +17,13 @@ router.post(
   getJsServices
 );
 
+router.post(
+  '/just-js-services',
+  logRequest,
+  checkDbForQuery,
+  getJsServices
+);
+
 
 router.get(
   '/aggregate',

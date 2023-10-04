@@ -10,12 +10,12 @@ import translateDeepl from '../../services/deepl.js';
  * send text in req to all services
  * return results to FE for comparison
  */
-export default async (req: Request, res: Response, _next: NextFunction) => {
+export default async function getJsServices(req: Request, res: Response, _next: NextFunction) {
   const text = req.query.text;
   if (!text || typeof text !== "string") throw new Error('Missing text query from params');
   if (!req.body.pyhtonResults) console.warn('No req.body from python-server. Missing python services');
   // TODO missing assertion on body
-  const pythonServices: PythonServiceResults = req.body.pyhtonResults;
+  const pythonServices: PythonServiceResults | undefined = req.body?.pyhtonResults;
 
   const jsServices = await callJavascriptServices(text);
   // const noNullValues = Object.values(jsServices).every(result => result !== null);

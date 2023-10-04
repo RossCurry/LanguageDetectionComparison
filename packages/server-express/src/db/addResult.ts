@@ -7,8 +7,8 @@ type ServicesResponse =  {
   fasttext: TranslationResult | null;
   franc: TranslationResult | null;
   deepl: TranslationResult | null;
-  langid: TranslationResult;
-  langdetect: TranslationResult;
+  langid?: TranslationResult;
+  langdetect?: TranslationResult;
 }
 type DocModel = {
   searchPhrase: string;
