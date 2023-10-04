@@ -14,7 +14,7 @@ export default function detectFranc(text:string, completeResults: boolean = fals
   const timeDiff = process.hrtime(startTime)
   return {
     confidence: null,
-    detectedLang: parseIso3to1(result),
+    detectedLang: result,
     originalText: text,
     processingTimeMs: parseHrTime(timeDiff),
     language: 'typescript'
