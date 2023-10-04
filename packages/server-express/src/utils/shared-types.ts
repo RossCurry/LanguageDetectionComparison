@@ -28,3 +28,5 @@ export type TranslationResult = {
   matchesDeepL?: boolean;
   translatedText?: string;
 }
+
+export type PythonServiceResults = Record<'langid' | 'langdetect', TranslationResult>

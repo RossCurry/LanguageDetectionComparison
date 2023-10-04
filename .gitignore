@@ -1,11 +1,14 @@
 # OS ignore
 .DS_Store
+
 # node ignore
 .env
 node_modules
+
 # pyhton ignore
 venv
 __pycache__
 
+# build folders
 lib
 dist
