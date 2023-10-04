@@ -32,7 +32,7 @@ export default async function translateDeepl(
   let translatedText: string;
   let detectedSourceLang: deepl.SourceLanguageCode;
   const translatorOptions: deepl.TranslatorOptions = { sendPlatformInfo: false };
-  const deeplAuth = process.env.DEEPL_AUTH || "70b69241-30d4-6772-b9c2-d86b69254e9e:fx"
+  const deeplAuth = process.env.DEEPL_AUTH
   if (!deeplAuth) throw new Error("No auth token found for deepL")
   const translator = new deepl.Translator(deeplAuth, translatorOptions);
   let timeDiff;

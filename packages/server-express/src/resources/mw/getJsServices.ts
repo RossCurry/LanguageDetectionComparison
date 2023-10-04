@@ -66,11 +66,15 @@ export async function callJavascriptServices(text: string) {
     fasttext: null,
     franc: null,
   }
-  await Promise.all(services.map(async (service) => {
-    console.log('Promise.all', service.name, !!service.fn)
+  // await Promise.all(services.map(async (service) => {
+  //   console.log('Promise.all', service.name, !!service.fn)
+  //   const detection = await service.fn(text)
+  //   results[service.name] = detection;
+  // }))
+  for (const service of services){
     const detection = await service.fn(text)
     results[service.name] = detection;
-  }))
+  }
   return results
 }
 
