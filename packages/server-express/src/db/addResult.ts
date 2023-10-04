@@ -4,7 +4,7 @@ import { connectDb, dbDetectionServices, client, resultsCollection } from './con
 
 type ServicesResponse =  {
   chardet: TranslationResult | null;
-  fasttext: TranslationResult | null;
+  fasttext?: TranslationResult | null;
   franc: TranslationResult | null;
   deepl: TranslationResult | null;
   langid?: TranslationResult;
