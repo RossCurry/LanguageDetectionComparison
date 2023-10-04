@@ -50,7 +50,13 @@ export default async function getJsServices(req: Request, res: Response, _next: 
 
 const services = [
   {name: 'chardet', fn: detectChardet},
-  {name: 'fasttext', fn: detectFasttext},
+  /**
+   * Refuses to work on render
+   * Oct 4 08:00:29 PM  Illegal instruction (core dumped)
+   * Oct 4 08:00:29 PM  error Command failed with exit code 132.
+   * Oct 4 08:00:29 PM  info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+   */
+  // {name: 'fasttext', fn: detectFasttext}, 
   {name: 'franc', fn: detectFranc},
   {name: 'deepl', fn: translateDeepl},
 ] as const
@@ -63,20 +69,20 @@ export async function callJavascriptServices(text: string) {
   const results: Record<Names, ServiceValues | null> = {
     chardet: null,
     deepl: null,
-    fasttext: null,
+    // fasttext: null,
     franc: null,
   }
-  // await Promise.all(services.map(async (service) => {
-  //   console.log('Promise.all', service.name, !!service.fn)
-  //   const detection = await service.fn(text)
-  //   results[service.name] = detection;
-  // }))
-  for (const service of services){
-    console.log('before detection', service.name, !!service.fn )
+  await Promise.all(services.map(async (service) => {
+    console.log('Promise.all', service.name, !!service.fn)
     const detection = await service.fn(text)
-    console.log('after detection', service.name, detection)
     results[service.name] = detection;
-  }
+  }))
+  // for (const service of services){
+  //   console.log('before detection', service.name, !!service.fn )
+  //   const detection = await service.fn(text)
+  //   console.log('after detection', service.name, detection)
+  //   results[service.name] = detection;
+  // }
   return results
 }
 
