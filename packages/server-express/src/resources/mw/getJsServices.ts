@@ -73,6 +73,7 @@ export async function callJavascriptServices(text: string) {
   // }))
   for (const service of services){
     const detection = await service.fn(text)
+    console.log('detection', service.name, detection)
     results[service.name] = detection;
   }
   return results
