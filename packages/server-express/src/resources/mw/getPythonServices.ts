@@ -19,13 +19,15 @@ export default async function getPythonServices(req: Request, res: Response, nex
         'Content-type': 'application/json'
       }
     });
-    const asJson = await pyhtonResults.json();
-    console.log('asJson', JSON.parse(JSON.stringify(asJson)))
-    req.body.pyhtonResults = asJson as PythonServiceResults;
+    const fromJson = await pyhtonResults.json();
+    const parsedJSON = JSON.parse(JSON.stringify(fromJson))
+    console.log('parsedJSON', parsedJSON)
+    req.body.pyhtonResults = parsedJSON as PythonServiceResults;
   } catch (error) {
     console.error('Error setting python results in req.body', error);
     throw error;
   }
+  console.log('req.body', req.body)
   next();
 }
   
