@@ -23,7 +23,7 @@ export default async function getPythonServices(req: Request, res: Response, nex
     console.log('asJson', JSON.parse(JSON.stringify(asJson)))
     req.body.pyhtonResults = asJson as PythonServiceResults;
   } catch (error) {
-    console.error(error);
+    console.error('Error setting python results in req.body', error);
     throw error;
   }
   next();

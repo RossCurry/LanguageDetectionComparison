@@ -18,13 +18,7 @@ export default async (req: Request, res: Response, _next: NextFunction) => {
   const pythonServices: PythonServiceResults = req.body.pyhtonResults;
 
   const jsServices = await callJavascriptServices(text);
-  const noNullValues = Object.values(jsServices).every(result => result !== null);
-
-  if (noNullValues) {
-    res.status(200);
-  } else {
-    res.status(500);
-  }
+  // const noNullValues = Object.values(jsServices).every(result => result !== null);
 
   const allServices = { ...pythonServices, ...jsServices };
   // addMatches deepL for DB & FE

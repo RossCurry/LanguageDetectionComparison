@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { findOneQueryResult } from '../../db/findQuery.js';
 
-export default async function checkResults(req: Request, res: Response, next: NextFunction) {
+export default async function checkDbForQuery(req: Request, res: Response, next: NextFunction) {
   const text = req.query.text;
   if (!text || typeof text !== "string") throw new Error('Missing text query from params');
   // Check DB for matching Query first
@@ -22,7 +22,7 @@ export default async function checkResults(req: Request, res: Response, next: Ne
     console.log('returning DB result')
     return;
   } else {
-    console.log('Calling services')
+    console.log('Request not in DB. Calling Services')
     next()
   }
   return;
