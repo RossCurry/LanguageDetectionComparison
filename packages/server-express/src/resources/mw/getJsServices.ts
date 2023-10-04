@@ -50,7 +50,7 @@ export default async function getJsServices(req: Request, res: Response, _next: 
 
 const services = [
   {name: 'chardet', fn: detectChardet},
-  {name: 'fasttext', fn: detectFasttext},
+  // {name: 'fasttext', fn: detectFasttext},
   {name: 'franc', fn: detectFranc},
   {name: 'deepl', fn: translateDeepl},
 ] as const
@@ -63,7 +63,7 @@ export async function callJavascriptServices(text: string) {
   const results: Record<Names, ServiceValues | null> = {
     chardet: null,
     deepl: null,
-    fasttext: null,
+    // fasttext: null,
     franc: null,
   }
   // await Promise.all(services.map(async (service) => {
