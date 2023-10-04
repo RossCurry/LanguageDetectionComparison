@@ -2,16 +2,10 @@
 import * as deepl from 'deepl-node';
 // Configure env variables
 import dotenv from 'dotenv'
+import { TranslationResult } from '../utils/shared-types.js';
 dotenv.config()
 
-export interface TranslationResult {
-  originalText: string;
-  detectedLang: string;
-  confidence: number | null;
-  processingTimeMs: number;
-  language: 'typescript' | 'javascript',
-  matchesDeepL?: boolean
-}
+
 
 export function parseHrTime(timeDiff: [number, number]) {
   // https://nodejs.org/api/process.html#processhrtime
@@ -55,10 +49,11 @@ export default async function translateDeepl(
   }
 
   return {
-    originalText: translatedText,
+    originalText: text,
     detectedLang: detectedSourceLang,
     confidence: null,
     processingTimeMs: parseHrTime(timeDiff),
-    language: 'typescript'
+    language: 'typescript',
+    translatedText
   };
 }

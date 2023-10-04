@@ -1,5 +1,6 @@
 import LID from 'fasttext-lid';
-import { TranslationResult, parseHrTime } from './deepl.js';
+import { parseHrTime } from './deepl.js';
+import { TranslationResult } from '../utils/shared-types.js';
 const lid = new LID();
 
 export default async function detectFasttext(text:string): Promise<TranslationResult> {

@@ -1,21 +1,26 @@
 import express from 'express';
-import bodyParser from 'body-parser'
 export const router = express.Router();
-import getPythonServices from './getPythonServices.js';
-import getJsServices from './getJsServices.js';
-import checkResults from './checkResults.js';
-import queryAggregationDB from './queryAggregationDB.js';
+import bodyParser from 'body-parser'
+import queryAggregationDB from './mw/queryAggregationDB.js';
+import logRequest from './mw/logRequest.js';
+import checkResults from './mw/checkResults.js';
+import getJsServices from './mw/getJsServices.js';
+import getPythonServices from './mw/getPythonServices.js';
 
 router.use(bodyParser.json())
 
 router.post(
-  '/detect', 
-  checkResults, 
-  getPythonServices, 
+  '/detect',
+  logRequest,
+  checkResults,
+  getPythonServices,
   getJsServices
 );
 
+
 router.get(
-  '/aggregate', 
+  '/aggregate',
+  logRequest,
   queryAggregationDB
 )
+

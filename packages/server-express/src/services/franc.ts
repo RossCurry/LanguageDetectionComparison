@@ -1,6 +1,7 @@
 import {franc, francAll, Options} from 'franc'
-import { parseHrTime, TranslationResult } from './deepl.js';
+import { parseHrTime } from './deepl.js';
 import parseIso3to1 from 'iso-639-3-to-1';
+import { TranslationResult } from '../utils/shared-types.js';
 
 export default function detectFranc(text:string, completeResults: boolean = false): TranslationResult {
   const francOptions: Options = {

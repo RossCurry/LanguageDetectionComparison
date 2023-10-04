@@ -1,4 +1,4 @@
-import { TranslationResult } from '../services/deepl.js'
+import { TranslationResult } from '../utils/shared-types.js';
 import { connectDb, dbDetectionServices, client, resultsCollection } from './connect.js'
 
 
@@ -26,11 +26,11 @@ export const insertOneQueryResult = async (searchPhrase: string, queryResponse: 
   try {
     await connectDb()
     const resultsCol = await client.db(dbDetectionServices).collection(resultsCollection)
-    console.info(`Connect to 'results' collection in '${dbDetectionServices}'`)
+    console.info(`Connect to '${resultsCollection}' collection in '${dbDetectionServices}'`)
     const savedResult = await resultsCol.insertOne(entry)
-    console.info(`Success. Added user: ${JSON.stringify(savedResult)}'`)
+    console.info(`Success. Added query: ${JSON.stringify(savedResult)}'`)
   } catch (error) {
-    console.error('Error creating collection to DB', error)
+    console.error('Error adding query to DB', error)
   } finally {
     await client.close()
     console.info(`Closing connection db 🛬: ${dbDetectionServices}`)

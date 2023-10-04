@@ -14,7 +14,6 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
         # Check if the "text" parameter is present in the query
         if 'text' in query_params:
             text_value = query_params['text'][0]
-            # response_message = f"You sent the following text: {text_value}"
             
             langdetect_result = detect_langdetect(text_value)
             langid_result = detect_langid(text_value)
@@ -35,7 +34,6 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
             response_message = "No 'text' parameter found in the query."
             # Send the response
             self.send_response(200)
-            # self.send_header('Content-type', 'text/plain')
             self.send_header('Content-type', 'text/plain')
             self.end_headers()
             self.wfile.write(response_message.encode('utf-8'))

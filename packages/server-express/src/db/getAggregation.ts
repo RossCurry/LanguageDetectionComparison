@@ -64,7 +64,7 @@ export default async function getAggregationResultsFromDB(): Promise<AggregateQu
     const theRest = withAvgMatchesDeepL.filter( res => res._id !== "deepl").sort((a,b) => a._id.charCodeAt(0) - b._id.charCodeAt(0))
     return { aggregateResults: [ deepL, ...theRest ], totalDocuments }
   } catch (error) {
-    console.error('Error gettin AggregateResults from DB', error)
+    console.error('Error getting AggregateResults from DB', error)
   } finally {
     await client.close()
     console.info(`Closing connection db 🛬: ${dbDetectionServices}`)

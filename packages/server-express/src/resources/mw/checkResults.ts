@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import { findOneQueryResult } from '../db/findQuery.js';
+import { findOneQueryResult } from '../../db/findQuery.js';
 
-export default async function checkResults (req: Request, res: Response, next: NextFunction) {
+export default async function checkResults(req: Request, res: Response, next: NextFunction) {
   const text = req.query.text;
   if (!text || typeof text !== "string") throw new Error('Missing text query from params');
   // Check DB for matching Query first
   const possibleResults = await findOneQueryResult(text)
-  if (possibleResults){
+  if (possibleResults) {
     res.send({
       servicesSorted: Object.entries(possibleResults).sort((a, b) => {
         const [aName, aResults] = a;

@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import translateDeepl, { TranslationResult } from '../services/deepl.js';
-import detectChardet from '../services/chardet.js';
-import detectFasttext from '../services/fasttext-lid.js';
-import detectFranc from '../services/franc.js';
-import { insertOneQueryResult } from '../db/addResult.js';
+import detectChardet from '../../services/chardet.js';
+import { insertOneQueryResult } from '../../db/addResult.js';
+import translateDeepl from '../../services/deepl.js';
+import detectFasttext from '../../services/fasttext-lid.js';
+import detectFranc from '../../services/franc.js';
+import { TranslationResult } from '../../utils/shared-types.js';
+
 
 
 export async function callJavascriptServices(text: string) {

@@ -1,6 +1,7 @@
 import chardet from 'chardet';
 import { Buffer } from 'node:buffer';
-import { TranslationResult, parseHrTime } from './deepl.js';
+import { parseHrTime } from './deepl.js';
+import { TranslationResult } from '../utils/shared-types.js';
 
 export default function detectChardet(text:string): TranslationResult {
   // const encoding = chardet.detect(Buffer.from('hello there!'));

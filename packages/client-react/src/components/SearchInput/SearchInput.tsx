@@ -9,6 +9,7 @@ type SearchInputProps = {
 };
 export default function SearchInput ({ setDetectionResults, setShowAggregation, buttonText }: SearchInputProps) {
   const [input, setInput] = useState('');
+  const [prevQuerySent, setPrevQuerySent] = useState('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,6 +18,7 @@ export default function SearchInput ({ setDetectionResults, setShowAggregation, 
     const url = new URL(expressBaseurl);
     url.pathname = 'detect';
     url.searchParams.set('text', input);
+    setPrevQuerySent(input)
     let result;
     try {
       result = await fetch(url, {
@@ -37,6 +39,19 @@ export default function SearchInput ({ setDetectionResults, setShowAggregation, 
     });
   };
 
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    /**
+     * This looks confusing
+     * you want to make the button 'detect' when the input is no longer prestine
+     */
+    if (buttonText === "show table"){
+      if (prevQuerySent !== e.target.value){
+        setShowAggregation(true)
+      }
+    }
+    setInput(e.target.value)
+  }
+
   return (
     <>
       <form onSubmit={buttonText === "detect" ? handleSubmit : () => setShowAggregation(true)} className={style.searhInputContainer}>
@@ -46,7 +61,7 @@ export default function SearchInput ({ setDetectionResults, setShowAggregation, 
           id="searchTerm"
           placeholder='Type word or phrase to detect'
           value={input}
-          onChange={(e) => setInput(e.target.value)} />
+          onChange={handleOnChange} />
         <button type="submit">{buttonText}</button>
       </form>
     </>

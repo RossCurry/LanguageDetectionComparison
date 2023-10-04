@@ -18,3 +18,13 @@ export type AggregateQuery = {
   totalDocuments: number,
   aggregateResults: AggregateResult[]
 }
+
+export type TranslationResult = {
+  originalText: string;
+  detectedLang: string;
+  confidence: number | null;
+  processingTimeMs: number;
+  language: 'typescript' | 'javascript';
+  matchesDeepL?: boolean;
+  translatedText?: string;
+}
