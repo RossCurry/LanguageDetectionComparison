@@ -59,6 +59,7 @@ type Fns =  typeof services[number]["fn"]
 type ServiceValues = Awaited<ReturnType<Fns>>
 
 export async function callJavascriptServices(text: string) {
+  console.log('call callJavascriptServices')
   const results: Record<Names, ServiceValues | null> = {
     chardet: null,
     deepl: null,
@@ -66,6 +67,7 @@ export async function callJavascriptServices(text: string) {
     franc: null,
   }
   await Promise.all(services.map(async (service) => {
+    console.log('Promise.all', service.name, !!service.fn)
     const detection = await service.fn(text)
     results[service.name] = detection;
   }))

@@ -20,7 +20,6 @@ router.post(
 router.post(
   '/just-js-services',
   logRequest,
-  checkDbForQuery,
   getJsServices
 );
 
