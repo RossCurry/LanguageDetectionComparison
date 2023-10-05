@@ -30,3 +30,20 @@ export type TranslationResult = {
 }
 
 export type PythonServiceResults = Record<'langid' | 'langdetect', TranslationResult>
+
+export type ServicesResponse =  {
+  chardet: TranslationResult | null;
+  fasttext: TranslationResult | null;
+  franc: TranslationResult | null;
+  deepl: TranslationResult | null;
+  langid: TranslationResult | null;
+  langdetect: TranslationResult | null;
+  socialhub: TranslationResult | null;
+}
+
+export type DocModel = {
+  searchPhrase: string;
+  wordCount: number;
+  characterCount: number;
+  serviceResults: ServicesResponse
+}

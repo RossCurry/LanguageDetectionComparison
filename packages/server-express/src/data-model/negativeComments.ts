@@ -1,0 +1,65 @@
+export const negativeComments = [
+
+  [
+    "Terrible customer service, never buying from you again!",
+    "Your products are low quality and overpriced.",
+    "Disappointed with my purchase, it broke after a week.",
+    "I've been waiting for my order for weeks, where is it?",
+    "Your website is so hard to navigate, I can't find what I need.",
+    "Stop sending me spam emails, it's annoying!",
+    "Worst shopping experience ever, zero stars if I could.",
+    "I can't believe I wasted my money on your products.",
+    "Your company doesn't care about its customers.",
+    "This is false advertising, the product doesn't do what was claimed.",
+  ]
+  ,
+  [
+    "Pésimo servicio al cliente, nunca más compro aquí.",
+    "Sus productos son de mala calidad y caros.",
+    "Decepcionado con mi compra, se rompió después de una semana.",
+    "Llevo semanas esperando mi pedido, ¿dónde está?",
+    "Su sitio web es difícil de navegar, no encuentro lo que necesito.",
+    "Dejen de enviarme correos electrónicos no deseados, ¡es molesto!",
+    "La peor experiencia de compra, cero estrellas si pudiera.",
+    "No puedo creer que haya desperdiciado mi dinero en sus productos.",
+    "Su empresa no se preocupa por sus clientes.",
+    "Esto es publicidad engañosa, el producto no hace lo que se afirmaba.",
+  ]
+  ,
+  [
+    "Service client déplorable, je n'achèterai plus jamais chez vous !",
+    "Vos produits sont de piètre qualité et trop chers.",
+    "Déçu de mon achat, il s'est cassé au bout d'une semaine.",
+    "J'attends ma commande depuis des semaines, où est-elle ?",
+    "Votre site web est trop compliqué, je ne trouve pas ce dont j'ai besoin.",
+    "Arrêtez de m'envoyer des emails indésirables, c'est agaçant !",
+    "La pire expérience d'achat de ma vie, zéro étoile si je le pouvais.",
+    "Je n'arrive pas à croire que j'aie gaspillé mon argent sur vos produits.",
+    "Votre entreprise ne se soucie pas de ses clients.",
+    "C'est de la publicité mensongère, le produit ne fait pas ce qui était prétendu.",
+  ]
+  ,
+  ["Schrecklicher Kundenservice, ich kaufe nie wieder bei euch!",
+    "Eure Produkte sind von minderwertiger Qualität und überteuert.",
+    "Enttäuscht von meinem Kauf, es ist nach einer Woche kaputt gegangen.",
+    "Ich warte seit Wochen auf meine Bestellung, wo bleibt sie?",
+    "Eure Webseite ist so schwer zu navigieren, ich finde nicht, was ich brauche.",
+    "Hört auf, mir Spam-E-Mails zu schicken, es ist nervig!",
+    "Schlechteste Einkaufserfahrung überhaupt, null Sterne, wenn ich könnte.",
+    "Ich kann nicht glauben, dass ich mein Geld für eure Produkte verschwendet habe.",
+    "Euer Unternehmen kümmert sich nicht um seine Kunden.",
+    "Das ist irreführende Werbung, das Produkt hält nicht, was versprochen wurde."]
+  ,
+  [
+    "糟糕的客户服务，再也不会在你们这里购买了！",
+    "你们的产品质量太差，而且价格也太高。",
+    "对我的购买感到失望，一周后就坏了。",
+    "我已经等了好几周了，我的订单在哪？",
+    "你们的网站太难用了，我找不到我需要的东西。",
+    "别再发垃圾邮件给我，太烦人了！",
+    "有史以来最糟糕的购物体验，如果能给零星的话我会的。",
+    "我简直不敢相信我竟然在你们的产品上浪费了我的钱。",
+    "你们公司根本不在乎客户。",
+    "这是虚假广告，产品根本做不到广告上宣称的效果。",
+  ]
+]

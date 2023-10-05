@@ -41,6 +41,8 @@ services:
       bash -c "cd data && yarn && yarn start"
     networks:
       - my_network
+    depends_on:
+      - python-service
 
 networks:
   my_network:

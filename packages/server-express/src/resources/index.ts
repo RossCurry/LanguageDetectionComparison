@@ -23,6 +23,10 @@ router.post(
   getJsServices
 );
 
+// needs to be modified to cater for new services by name
+// router.get('/updateDB',
+//   updateDbNewService
+// )
 
 router.get(
   '/aggregate',

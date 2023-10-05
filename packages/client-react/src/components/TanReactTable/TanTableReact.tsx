@@ -11,6 +11,7 @@ const logos = {
   'fasttext': 'https://cdn.worldvectorlogo.com/logos/logo-javascript.svg',
   'chardet': 'https://cdn.worldvectorlogo.com/logos/typescript.svg',
   'franc': 'https://cdn.worldvectorlogo.com/logos/typescript.svg',
+  'socialhub': 'https://cdn.worldvectorlogo.com/logos/typescript.svg',
 };
 
 type TableHeaders = '_id' | 'avgProcessingTimeMs' | 'avgMatchesDeepL';
