@@ -13,13 +13,15 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
         url_parts = urlparse(self.path)
         print('url_parts', url_parts)
         # Check if the requested path is '/detect/'
-        if url_parts.path == '/detect/':
+        if url_parts.path == '/detect':
             query_params = parse_qs(url_parts.query)
 
             # Check if the "text" parameter is present in the query
             if 'text' in query_params:
                 text_value = query_params['text'][0]
-                source_lang = query_params['sourceLang'][0]
+                source_lang = ''
+                if 'sourceLang' in query_params:
+                    source_lang = query_params['sourceLang'][0]
                 
                 langdetect_result = detect_langdetect(text_value, source_lang)
                 langid_result = detect_langid(text_value, source_lang)
