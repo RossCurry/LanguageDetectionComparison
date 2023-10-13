@@ -7,4 +7,5 @@
   margin-top: 2rem;
   border-radius: 6px;
   border: 2px solid rgba(245, 245, 220, 0.479);
+  overflow: scroll;
 }

@@ -21,6 +21,7 @@ export default function SearchInput ({ setDetectionResults, setShowAggregationTa
       setIsPristine(false)
       return;
     }
+    setShowAggregationTable(false)
     const expressBaseurl = import.meta.env.VITE_API_EXPRESS;
     const url = new URL(expressBaseurl);
     url.pathname = 'detect';
@@ -39,7 +40,6 @@ export default function SearchInput ({ setDetectionResults, setShowAggregationTa
     }
     const asJson: ApiDetectionResults = await result?.json();
     setDetectionResults(asJson);
-    setShowAggregationTable(false)
     setIsPristine(true)
   };
 
