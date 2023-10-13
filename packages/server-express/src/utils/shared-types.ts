@@ -1,14 +1,15 @@
 import { iso6393To1 } from "./iso-639-3-to-1.js";
 
-export type DetectionServices = 
+export type DetectionServices =
   'langid' |
   'langdetect' |
   'chardet' |
   'franc' |
   'fasttext' |
+  'socialhub' |
   'deepl';
 
-export type AggregateResult = { 
+export type AggregateResult = {
   _id: DetectionServices;
   trueCount: number;
   falseCount: number;
@@ -42,8 +43,13 @@ export type TranslationResult = {
 }
 
 export type PythonServiceResults = Record<'langid' | 'langdetect', TranslationResult>
+export type JsServiceResults = Record<'chardet' |
+  'franc' |
+  'fasttext' |
+  'socialhub' |
+  'deepl', TranslationResult | null>
 
-export type ServicesResponse =  {
+export type ServicesResponse = Partial<{
   chardet: TranslationResult | null;
   fasttext: TranslationResult | null;
   franc: TranslationResult | null;
@@ -51,7 +57,7 @@ export type ServicesResponse =  {
   langid: TranslationResult | null;
   langdetect: TranslationResult | null;
   socialhub: TranslationResult | null;
-}
+}>
 
 export type DocModel = {
   searchPhrase: string;

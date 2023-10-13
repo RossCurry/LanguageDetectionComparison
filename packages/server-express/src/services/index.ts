@@ -4,6 +4,10 @@ import detectFasttext from "./fasttext-lid.js"
 import detectFranc from "./franc.js"
 import detectSocialHub from "./socialhub.js"
 
+export type ServiceNames = Partial<typeof services[number]["name"]>
+export type ServiceFns = typeof services[number]["fn"]
+export type ServiceValues = Awaited<ReturnType<ServiceFns>>
+
 export const services = [
   { name: 'chardet', fn: detectChardet },
   /**
@@ -16,7 +20,4 @@ export const services = [
   { name: 'franc', fn: detectFranc },
   { name: 'deepl', fn: translateDeepl },
   { name: 'socialhub', fn: detectSocialHub },
-] as const
-export type ServiceNames = Partial<typeof services[number]["name"]>
-export type ServiceFns = typeof services[number]["fn"]
-export type ServiceValues = Awaited<ReturnType<ServiceFns>>
+]

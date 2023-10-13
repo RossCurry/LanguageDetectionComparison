@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { insertOneQueryResult } from '../../db/addResult.js';
-import { PythonServiceResults, ServicesResponse, SourceLanguages, TranslationResult } from '../../utils/shared-types.js';
+import { DetectionServices, JsServiceResults, PythonServiceResults, ServicesResponse, SourceLanguages, TranslationResult } from '../../utils/shared-types.js';
 import { ServiceNames, ServiceValues, services } from '../../services/index.js';
 
 /**
@@ -11,9 +11,10 @@ export default async function getJsServices(req: Request, res: Response, _next: 
   const text = req.query.text;
   if (!text || typeof text !== "string") throw new Error('Missing text query from params');
   if (!req.body.pyhtonResults) console.warn('No req.body from python-server. Missing python services');
-  // TODO missing assertion on body
   const pythonServices: PythonServiceResults | null = req.body.pyhtonResults ? req.body?.pyhtonResults : null;
   const jsServices = await callJavascriptServices(text);
+  
+  // combine services
   const allServices = !pythonServices ? jsServices : { ...pythonServices, ...jsServices };
 
   // assert no null services
@@ -41,9 +42,9 @@ function assertIsServiceResponse(serverResponse: unknown): asserts serverRespons
   });
   if (!noNullValues) throw new Error(`One of the service responses is null ${JSON.stringify(keys)}`)
 }
-type JsResults = Record<ServiceNames, ServiceValues | null>
+
 export async function callJavascriptServices(text: string, sourceLang: SourceLanguages = '') {
-  let results: JsResults | any = {
+  let results: Partial<JsServiceResults> = {
     chardet: null,
     deepl: null,
     fasttext: null,
@@ -59,12 +60,12 @@ export async function callJavascriptServices(text: string, sourceLang: SourceLan
       console.log('Promise.all', service.name, !!service.fn)
       try {
         const detection = await service.fn(text)
-        results[service.name] = { ...detection, sourceLang };
+        results[service.name as keyof JsServiceResults] = { ...detection, sourceLang };
       } catch (error) {
         throw new Error(`Error throw by service: ${service.name}`)
       }
     }))
-  // Return only values that 
+  // fasttext Refuses to work on PROD 'render'
   results = process.env.PROD ? { 
     chardet: results.chardet,
     deepl: results.deepl,
