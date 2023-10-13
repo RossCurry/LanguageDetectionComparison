@@ -23,20 +23,17 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
                 'langdetect': langdetect_result,
                 'langid': langid_result,
             }
-
-            # print('response_message', response_message)
-
-            # Create a plain text response message
-            response_text = f"Langdetect Result: {langdetect_result},\nLangid Result: {langid_result}"
-
+            print('Response Message:', response_message)
+            static_response = {
+                'langdetect': 'langdetect_result',
+                'langid': 'langid_result',
+            }
+            print('static_response:', static_response)
             # Send the HTTP response with the response_message as JSON
             self.send_response(200)
-            self.send_header('Content-type', 'text/plain')
-            # self.send_header('Content-type', 'application/json')
+            self.send_header('Content-type', 'application/json')
             self.end_headers()
-            # response is json is giving me issues in JS json parse
-            # self.wfile.write(json.dumps(response_message).encode('utf-8'))
-            self.wfile.write(response_message.encode('utf-8'))
+            self.wfile.write(json.dumps(static_response).encode('utf-8'))
         else:
             response_message = "No 'text' parameter found in the query."
             # Send the response
@@ -53,3 +50,17 @@ with socketserver.TCPServer(("", port), MyHandler) as httpd:
     print(f"Serving at port {port}")
     # Start the server, this will run indefinitely until you stop it manually
     httpd.serve_forever()
+
+
+
+
+
+#  how to send as plain text
+
+# Create a plain text response message
+# response_text = f"Langdetect Result: {langdetect_result},\nLangid Result: {langid_result}"
+# Send the HTTP response with the response_message as JSON
+# self.send_response(200)
+# self.send_header('Content-type', 'text/plain')
+# self.end_headers()
+# self.wfile.write(response_message.encode('utf-8'))

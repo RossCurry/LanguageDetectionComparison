@@ -24,6 +24,7 @@ export async function callPythonServices(text: string, sourceLang: string = ''):
   url.pathname = 'detect';
   url.searchParams.set('text', text);
   url.searchParams.set('sourceLang', sourceLang);
+  console.info('GET ====> to python server', url.toString())
   const pyhtonResults = await fetch(url.toString(), {
     headers: {
       'Content-type': 'application/json'
