@@ -30,6 +30,7 @@ export async function callPythonServices(text: string, sourceLang: string = ''):
       'Content-type': 'application/json'
     }
   });
+  if (!pyhtonResults.ok) throw new Error(`Error fetching python services: ${JSON.stringify(pyhtonResults)}`)
   let parsedJSON: PythonServiceResults | null = null;
   try {
     const fromJson = await pyhtonResults.json();
