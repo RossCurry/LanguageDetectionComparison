@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { findOneQueryResult } from '../../db/findQuery.js';
+import { sortByProcessingTime } from './getJsServices.js';
 
 export default async function checkDbForQuery(req: Request, res: Response, next: NextFunction) {
   const text = req.query.text;
@@ -8,16 +9,7 @@ export default async function checkDbForQuery(req: Request, res: Response, next:
   const possibleResults = await findOneQueryResult(text)
   if (possibleResults) {
     res.send({
-      servicesSorted: Object.entries(possibleResults).sort((a, b) => {
-        const [aName, aResults] = a;
-        const [bName, bResults] = b;
-        return (aResults?.processingTimeMs)! - (bResults?.processingTimeMs)!;
-      }),
-      failedServices: Object.entries(possibleResults).reduce((failedService, service) => {
-        const [name, serviceResults] = service;
-        if (!serviceResults?.matchesDeepL) failedService.push(name);
-        return failedService;
-      }, [] as string[])
+      servicesSorted: sortByProcessingTime(possibleResults),
     })
     console.log('returning DB result')
     return;

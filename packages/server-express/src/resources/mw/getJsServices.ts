@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { insertOneQueryResult } from '../../db/addResult.js';
-import { PythonServiceResults, ServicesResponse, SourceLanguages } from '../../utils/shared-types.js';
+import { PythonServiceResults, ServicesResponse, SourceLanguages, TranslationResult } from '../../utils/shared-types.js';
 import { ServiceNames, ServiceValues, services } from '../../services/index.js';
 
 /**
@@ -12,33 +12,22 @@ export default async function getJsServices(req: Request, res: Response, _next: 
   if (!text || typeof text !== "string") throw new Error('Missing text query from params');
   if (!req.body.pyhtonResults) console.warn('No req.body from python-server. Missing python services');
   // TODO missing assertion on body
-  const pythonServices: PythonServiceResults | null = req.body?.pyhtonResults;
+  const pythonServices: PythonServiceResults | null = req.body.pyhtonResults ? req.body?.pyhtonResults : null;
   const jsServices = await callJavascriptServices(text);
   const allServices = !pythonServices ? jsServices : { ...pythonServices, ...jsServices };
 
+  // assert no null services
   assertIsServiceResponse(allServices)
-  const deeplDetectedLang = allServices["deepl"]?.detectedLang;
-  for (const [name, result] of Object.entries(allServices)) {
-    const matchesDeepL = result?.detectedLang === deeplDetectedLang;
-    if (result) result.matchesDeepL = matchesDeepL;
-    console.log('result', result);
-  }
+
+  // mutate to include deepL match boolean
+  includeDeeplMatch(allServices)
+  
   // Send results to a DB
   await insertOneQueryResult(text, allServices);
 
+  // Response with all results sorted.
   res.send({
-    servicesSorted: Object.entries(allServices).sort((a, b) => {
-      const [aName, aResults] = a;
-      const [bName, bResults] = b;
-      return (aResults?.processingTimeMs)! - (bResults?.processingTimeMs)!;
-    }),
-    // TODO seems like this doesn't always work
-    failedServices: Object.entries(allServices).reduce((failedService, service) => {
-      const [name, serviceResults] = service;
-      const deepLDetection = allServices["deepl"]?.detectedLang;
-      if (serviceResults?.detectedLang !== deepLDetection) failedService.push(name);
-      return failedService;
-    }, [] as string[])
+    servicesSorted: sortByProcessingTime(allServices),
   });
 };
 
@@ -71,5 +60,21 @@ export async function callJavascriptServices(text: string, sourceLang: SourceLan
       }
     }))
   return results
+}
+
+function includeDeeplMatch(allServices: ServicesResponse) {
+  const deeplDetectedLang = allServices["deepl"]?.detectedLang;
+  for (const [name, result] of Object.entries(allServices)) {
+    if (!result) continue;
+    const matchesDeepL = result?.detectedLang === deeplDetectedLang;
+    result.matchesDeepL = matchesDeepL;
+  }
+}
+export function sortByProcessingTime(allServices: ServicesResponse) {
+  return Object.entries(allServices).sort((a, b) => {
+    const [aName, aResults] = a;
+    const [bName, bResults] = b;
+    return (aResults?.processingTimeMs)! - (bResults?.processingTimeMs)!;
+  })
 }
 

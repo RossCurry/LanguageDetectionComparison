@@ -30,7 +30,6 @@ export function SearchResults({ detectionResults }: SearchResultsProps) {
             key={serviceName + i}
             serviceResult={serviceResults}
             serviceName={serviceName}
-            // matchesDeepl={!detectionResults?.failedServices.includes(serviceName)} // not correct
             matchesDeepl={matchesDeepl} />
         );
       }) : null }

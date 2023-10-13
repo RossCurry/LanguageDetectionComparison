@@ -14,7 +14,6 @@ export interface TranslationResult {
 }
 
 export type ApiDetectionResults = {
-  failedServices: string[],
   servicesSorted: readonly [string, TranslationResult][]
 }
 
