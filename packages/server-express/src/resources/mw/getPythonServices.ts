@@ -18,7 +18,7 @@ export default async function getPythonServices(req: Request, res: Response, nex
         'Content-type': 'application/json'
       }
     });
-    const fromJson = await pyhtonResults.json();
+    const fromJson = await pyhtonResults.text();
     const parsedJSON = JSON.parse(JSON.stringify(fromJson))
     req.body.pyhtonResults = parsedJSON as PythonServiceResults;
   } catch (error) {
