@@ -1,7 +1,7 @@
 import py3langid as langid
 import time
 
-def detect_language(text):
+def detect_language(text, source_lang):
     try:
         startTime = time.time()
         detected_lang = langid.classify(text)
@@ -13,7 +13,8 @@ def detect_language(text):
             'confidence': float(detected_lang[1]), 
             'originalText': text,
             'processingTimeMs': float(elapsedTime),
-            'language': 'python'
+            'language': 'python',
+            'sourceLang': source_lang
         }
         return translationResult
     except Exception as e:

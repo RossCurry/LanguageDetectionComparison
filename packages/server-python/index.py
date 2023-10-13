@@ -14,9 +14,10 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
         # Check if the "text" parameter is present in the query
         if 'text' in query_params:
             text_value = query_params['text'][0]
+            source_lang = query_params['sourceLang'][0]
             
-            langdetect_result = detect_langdetect(text_value)
-            langid_result = detect_langid(text_value)
+            langdetect_result = detect_langdetect(text_value, source_lang)
+            langid_result = detect_langid(text_value, source_lang)
 
             response_message = {
                 'langdetect': langdetect_result,

@@ -13,6 +13,7 @@ export default function AggregationModal() {
       const expressBaseurl = import.meta.env.VITE_API_EXPRESS;
       const url = new URL(expressBaseurl);
       url.pathname = 'aggregate';
+      url.searchParams.set('collection', 'with_source_lang3');
       let result;
       try {
         result = await fetch(url, {

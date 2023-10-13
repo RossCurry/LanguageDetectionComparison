@@ -19,8 +19,6 @@ export default async function detectSocialHub(text:string): Promise<TranslationR
   let result;
   let timeDiff;
   try {
-    console.log('socialHubAuth', socialHubAuth)
-    console.log('socialHubUrl', socialHubUrl)
     const startTime = process.hrtime()
     result = await fetch(
       socialHubUrl, {

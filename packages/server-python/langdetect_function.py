@@ -1,7 +1,7 @@
 from langdetect import detect
 import time
 
-def detect_language(text):
+def detect_language(text, source_lang):
     try:
         startTime = time.time()
         detected_lang = detect(text)
@@ -13,7 +13,8 @@ def detect_language(text):
             'confidence': None, 
             'originalText': text,
             'processingTimeMs': float(elapsedTime),
-            'language': 'python'
+            'language': 'python',
+            'sourceLang': source_lang
         }
         return translationResult
     except Exception as e:

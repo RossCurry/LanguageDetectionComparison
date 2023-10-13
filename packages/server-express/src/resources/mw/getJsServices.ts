@@ -1,11 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { insertOneQueryResult } from '../../db/addResult.js';
-import { PythonServiceResults, ServicesResponse } from '../../utils/shared-types.js';
-import detectChardet from '../../services/chardet.js';
-import detectFasttext from '../../services/fasttext-lid.js';
-import detectFranc from '../../services/franc.js';
-import translateDeepl from '../../services/deepl.js';
-import detectSocialHub from '../../services/socialhub.js';
+import { PythonServiceResults, ServicesResponse, SourceLanguages } from '../../utils/shared-types.js';
+import { ServiceNames, ServiceValues, services } from '../../services/index.js';
 
 /**
  * send text in req to all services
@@ -21,7 +17,6 @@ export default async function getJsServices(req: Request, res: Response, _next: 
   const allServices = !pythonServices ? jsServices : { ...pythonServices, ...jsServices };
   
   assertIsServiceResponse(allServices)
-  // addMatches deepL for DB & FE
   const deeplDetectedLang = allServices["deepl"]?.detectedLang;
   for (const [name, result] of Object.entries(allServices)) {
     const matchesDeepL = result?.detectedLang === deeplDetectedLang;
@@ -53,26 +48,8 @@ function assertIsServiceResponse(serverResponse:unknown): asserts serverResponse
   if (!noNullValues) throw new Error('One of the service responses is null')
 }
 
-const services = [
-  {name: 'chardet', fn: detectChardet},
-  /**
-   * Refuses to work on render
-   * Oct 4 08:00:29 PM  Illegal instruction (core dumped)
-   * Oct 4 08:00:29 PM  error Command failed with exit code 132.
-   * Oct 4 08:00:29 PM  info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
-   */
-  {name: 'fasttext', fn: detectFasttext}, 
-  {name: 'franc', fn: detectFranc},
-  {name: 'deepl', fn: translateDeepl},
-  {name: 'socialhub', fn: detectSocialHub},
-] as const
-type Names = typeof services[number]["name"]
-type Fns =  typeof services[number]["fn"]
-type ServiceValues = Awaited<ReturnType<Fns>>
-
-export async function callJavascriptServices(text: string) {
-  console.log('call callJavascriptServices')
-  const results: Record<Names, ServiceValues | null> = {
+export async function callJavascriptServices(text: string, sourceLang: SourceLanguages = '') {
+  const results: Record<ServiceNames, ServiceValues | null> = {
     chardet: null,
     deepl: null,
     fasttext: null,
@@ -81,21 +58,19 @@ export async function callJavascriptServices(text: string) {
   }
   await Promise.all(services
       .filter(s => {
-        // fasttext Refuses to work on 'render'
-        return process.env.PROD && s.name === 'fasttext'
-        ? false : true
+        // fasttext Refuses to work on PROD 'render'
+        // return (process.env.PROD && s.name === 'fasttext') || s.name === 'fasttext' ? false : true
+        return true
       })
       .map(async (service) => {
     console.log('Promise.all', service.name, !!service.fn)
-    const detection = await service.fn(text)
-    results[service.name] = detection;
-  }))
-  // for (const service of services){
-  //   console.log('before detection', service.name, !!service.fn )
-  //   const detection = await service.fn(text)
-  //   console.log('after detection', service.name, detection)
-  //   results[service.name] = detection;
-  // }
+        try {
+      const detection = await service.fn(text)
+      results[service.name] = { ...detection, sourceLang };
+    } catch (error) {
+      throw new Error(`Error throw by service: ${service.name}`)
+    }
+      }))
   return results
 }
 
