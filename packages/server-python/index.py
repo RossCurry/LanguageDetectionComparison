@@ -31,16 +31,16 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
                     'langid': langid_result,
                 }
                 print('Response Message:', response_message)
-                static_response = {
-                    'langdetect': 'langdetect_result',
-                    'langid': 'langid_result',
-                }
-                print('static_response:', static_response)
+                # static_response = {
+                #     'langdetect': 'langdetect_result',
+                #     'langid': 'langid_result',
+                # }
+                # print('static_response:', static_response)
                 # Send the HTTP response with the response_message as JSON
                 self.send_response(200)
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
-                self.wfile.write(json.dumps(static_response).encode('utf-8'))
+                self.wfile.write(json.dumps(response_message).encode('utf-8'))
             else:
                 response_message = "No 'text' parameter found in the query."
                 # Send the response
