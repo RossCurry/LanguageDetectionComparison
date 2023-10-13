@@ -33,8 +33,13 @@ export default async function getJsServices(req: Request, res: Response, _next: 
 
 function assertIsServiceResponse(serverResponse: unknown): asserts serverResponse is ServicesResponse {
   if (typeof serverResponse !== 'object' || !serverResponse) throw new Error('Is not defined, null or not an object')
-  const noNullValues = Object.values(serverResponse).every(result => result !== null);
-  if (!noNullValues) throw new Error('One of the service responses is null')
+  const keys: any[] = []
+  const noNullValues = Object.entries(serverResponse).every(([key, result]) => {
+    const isNull = result === undefined || result === null
+    if (isNull) keys.push({ key, result })
+    return result !== null
+  });
+  if (!noNullValues) throw new Error(`One of the service responses is null ${JSON.stringify(keys)}`)
 }
 
 export async function callJavascriptServices(text: string, sourceLang: SourceLanguages = '') {
