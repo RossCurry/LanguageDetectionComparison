@@ -21,7 +21,7 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
 
             response_message = {
                 'langdetect': langdetect_result,
-                'langid': langid_result
+                'langid': langid_result,
             }
 
             print('response_message', response_message)

@@ -14,7 +14,7 @@ def detect_language(text, source_lang):
             'originalText': text,
             'processingTimeMs': float(elapsedTime),
             'language': 'python',
-            'sourceLang': source_lang
+            'sourceLang': source_lang,
         }
         return translationResult
     except Exception as e:
