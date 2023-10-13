@@ -15,7 +15,7 @@ export default async function getPythonServices(req: Request, res: Response, nex
     url.searchParams.set('text', text);
     const pyhtonResults = await fetch(url.toString(), {
       headers: {
-        'Content-type': 'application/json'
+        'Accept': 'text/plain',
       }
     });
     const fromJson = await pyhtonResults.text();

@@ -15,7 +15,7 @@ export default async function getJsServices(req: Request, res: Response, _next: 
   const pythonServices: PythonServiceResults | null = req.body?.pyhtonResults;
   const jsServices = await callJavascriptServices(text);
   const allServices = !pythonServices ? jsServices : { ...pythonServices, ...jsServices };
-  
+
   assertIsServiceResponse(allServices)
   const deeplDetectedLang = allServices["deepl"]?.detectedLang;
   for (const [name, result] of Object.entries(allServices)) {
@@ -42,8 +42,8 @@ export default async function getJsServices(req: Request, res: Response, _next: 
   });
 };
 
-function assertIsServiceResponse(serverResponse:unknown): asserts serverResponse is ServicesResponse {
-  if (typeof serverResponse !== 'object' || !serverResponse ) throw new Error('Is not defined, null or not an object')
+function assertIsServiceResponse(serverResponse: unknown): asserts serverResponse is ServicesResponse {
+  if (typeof serverResponse !== 'object' || !serverResponse) throw new Error('Is not defined, null or not an object')
   const noNullValues = Object.values(serverResponse).every(result => result !== null);
   if (!noNullValues) throw new Error('One of the service responses is null')
 }
@@ -57,20 +57,19 @@ export async function callJavascriptServices(text: string, sourceLang: SourceLan
     socialhub: null,
   }
   await Promise.all(services
-      .filter(s => {
-        // fasttext Refuses to work on PROD 'render'
-        // return (process.env.PROD && s.name === 'fasttext') || s.name === 'fasttext' ? false : true
-        return true
-      })
-      .map(async (service) => {
-    console.log('Promise.all', service.name, !!service.fn)
-        try {
-      const detection = await service.fn(text)
-      results[service.name] = { ...detection, sourceLang };
-    } catch (error) {
-      throw new Error(`Error throw by service: ${service.name}`)
-    }
-      }))
+    .filter(s => {
+      // fasttext Refuses to work on PROD 'render'
+      return process.env.PROD && s.name === 'fasttext' ? false : true
+    })
+    .map(async (service) => {
+      console.log('Promise.all', service.name, !!service.fn)
+      try {
+        const detection = await service.fn(text)
+        results[service.name] = { ...detection, sourceLang };
+      } catch (error) {
+        throw new Error(`Error throw by service: ${service.name}`)
+      }
+    }))
   return results
 }
 
