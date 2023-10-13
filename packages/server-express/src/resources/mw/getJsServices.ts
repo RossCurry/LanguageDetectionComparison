@@ -41,9 +41,9 @@ function assertIsServiceResponse(serverResponse: unknown): asserts serverRespons
   });
   if (!noNullValues) throw new Error(`One of the service responses is null ${JSON.stringify(keys)}`)
 }
-
+type JsResults = Record<ServiceNames, ServiceValues | null>
 export async function callJavascriptServices(text: string, sourceLang: SourceLanguages = '') {
-  const results: Record<ServiceNames, ServiceValues | null> = {
+  let results: JsResults | any = {
     chardet: null,
     deepl: null,
     fasttext: null,
@@ -64,6 +64,13 @@ export async function callJavascriptServices(text: string, sourceLang: SourceLan
         throw new Error(`Error throw by service: ${service.name}`)
       }
     }))
+  // Return only values that 
+  results = process.env.PROD ? { 
+    chardet: results.chardet,
+    deepl: results.deepl,
+    franc: results.franc,
+    socialhub: results.socialhub,
+  } : results
   return results
 }
 

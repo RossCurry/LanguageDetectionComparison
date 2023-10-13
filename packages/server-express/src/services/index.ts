@@ -17,6 +17,6 @@ export const services = [
   { name: 'deepl', fn: translateDeepl },
   { name: 'socialhub', fn: detectSocialHub },
 ] as const
-export type ServiceNames = typeof services[number]["name"]
+export type ServiceNames = Partial<typeof services[number]["name"]>
 export type ServiceFns = typeof services[number]["fn"]
 export type ServiceValues = Awaited<ReturnType<ServiceFns>>
